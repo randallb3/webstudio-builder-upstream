@@ -65,6 +65,8 @@ import {
   $assetFolders,
   $assets,
   $publisherHost,
+  $publisherHostConfigured,
+  $secureCookie,
 } from "~/shared/sync/data-stores";
 import {
   $publishDialog,
@@ -339,6 +341,7 @@ const ChangeProjectDomain = ({
   const stagingUsername = useStore($stagingUsername);
   const stagingPassword = useStore($stagingPassword);
   const publisherHost = useStore($publisherHost);
+  const secureCookie = useStore($secureCookie);
 
   const [domain, setDomain] = useState(project.domain);
   const [error, setError] = useState<string>();
@@ -350,6 +353,7 @@ const ChangeProjectDomain = ({
     pathname: currentSystem.pathname,
     username: stagingUsername,
     password: stagingPassword,
+    secure: secureCookie,
   });
 
   const updateProjectDomain = async () => {
@@ -1281,6 +1285,7 @@ const Content = (props: {
   setIsPublishing: (isPublishing: boolean) => void;
 }) => {
   const restrictedFeatures = useStore($restrictedFeatures);
+  const publisherHostConfigured = useStore($publisherHostConfigured);
   const [newDomains, setNewDomains] = useState(new Set<string>());
   const [isAddingDomain, setIsAddingDomain] = useState(false);
 
@@ -1347,11 +1352,28 @@ const Content = (props: {
       <form>
         <ScrollArea>
           <RadioGroup name="publishDomain">
-            <ChangeProjectDomain
-              refresh={refreshProject}
-              projectState={projectState}
-              project={project}
-            />
+            {publisherHostConfigured ? (
+              <ChangeProjectDomain
+                refresh={refreshProject}
+                projectState={projectState}
+                project={project}
+              />
+            ) : (
+              <PanelBanner variant="warning">
+                <Text>
+                  PUBLISHER_HOST is not configured, so this project has no
+                  built-in test-site domain. Set it in your environment (e.g.{" "}
+                  <Text variant="mono" inline>
+                    wstdwork.example.com
+                  </Text>{" "}
+                  or{" "}
+                  <Text variant="mono" inline>
+                    wstdwork.localhost
+                  </Text>
+                  ) to get one.
+                </Text>
+              </PanelBanner>
+            )}
 
             <Domains
               newDomains={newDomains}
