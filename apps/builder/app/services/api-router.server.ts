@@ -1129,6 +1129,8 @@ export const apiRouter = router({
         idempotencyKey: z.string().optional(),
         renderMode: z.enum(["ssg", "ssr"]).optional(),
         host: z.enum(["local", "cloudflare", "coolify", "ssh"]).optional(),
+        coolifyWebhookUrl: z.string().optional(),
+        coolifyWebhookToken: z.string().optional(),
       }),
       "edit",
       async ({ auth, ctx, input }) => {
@@ -1143,6 +1145,8 @@ export const apiRouter = router({
             target: input.target,
             renderMode: input.renderMode,
             host: input.host,
+            coolifyWebhookUrl: input.coolifyWebhookUrl,
+            coolifyWebhookToken: input.coolifyWebhookToken,
           },
           ctx
         );
