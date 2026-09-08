@@ -1127,7 +1127,8 @@ export const apiRouter = router({
         domains: z.array(z.string()).optional(),
         message: z.string().optional(),
         idempotencyKey: z.string().optional(),
-        buildMode: z.enum(["ssg", "ssr", "cloudflare"]).optional(),
+        renderMode: z.enum(["ssg", "ssr"]).optional(),
+        host: z.enum(["local", "cloudflare", "coolify", "ssh"]).optional(),
       }),
       "edit",
       async ({ auth, ctx, input }) => {
@@ -1140,7 +1141,8 @@ export const apiRouter = router({
             project,
             domains,
             target: input.target,
-            buildMode: input.buildMode,
+            renderMode: input.renderMode,
+            host: input.host,
           },
           ctx
         );
