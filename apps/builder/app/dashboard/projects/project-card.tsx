@@ -129,8 +129,23 @@ export const ProjectCard = ({
 
   const linkPath = builderUrl({ origin: window.origin, projectId: id });
 
+  // The whole card opens the project, not just the thumbnail anchor —
+  // tapping/clicking the title or footer on touch devices felt dead.
+  // Real interactive descendants (thumbnail link, published-domain link,
+  // menu button) keep their own behavior.
+  const openProject = (event: React.MouseEvent) => {
+    if (
+      (event.target as HTMLElement).closest(
+        "a, button, input, [role='menu'], [role='dialog'], [data-sonner-toaster]"
+      )
+    ) {
+      return;
+    }
+    window.location.href = linkPath;
+  };
+
   return (
-    <Card hidden={isHidden} {...props}>
+    <Card hidden={isHidden} onClick={openProject} {...props}>
       <CardContent
         css={{
           background: thumbnailSurface,

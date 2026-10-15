@@ -11,6 +11,10 @@ every sync:
 6. `fix(pages): add PageTemplate schema and fix pageTemplates Map deserialization`
 7. `ci: docker publish/cleanup and upstream sync workflows` — image build on PR/develop/release, GHCR pruning, scheduled upstream sync (publisher rebuild trigger, fixture-stamp conflict auto-resolution, flaky CLI test retry, deterministic `bundleVersion` re-stamp script)
 8. `docs: fork documentation` — this file, CLAUDE.md, README
+9. `feat(dashboard): whole project card opens the project` — Harbor patch:
+   clicking/tapping anywhere on the card (title, footer) navigates to the
+   builder, not just the thumbnail anchor; interactive descendants
+   (links, menu) keep their own behavior
 
 > **Maintainers**: new PRs are squash-merged on `develop`, then folded into the
 > relevant patch (or added as a new one, updating this list) at the next
